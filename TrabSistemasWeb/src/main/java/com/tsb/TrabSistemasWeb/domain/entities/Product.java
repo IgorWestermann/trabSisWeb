@@ -15,9 +15,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "products")
-@Getter
-@Setter
 @AllArgsConstructor
+@Setter
 @NoArgsConstructor
 public class Product implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -25,11 +24,33 @@ public class Product implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Getter
     private String name;
+    @Getter
     private String description;
+    @Getter
     private Double price;
+    @Getter
     private String ingUrl;
 
-    @Transient
+    @Getter
+    @ManyToMany
+    @JoinTable(
+            name = "product_category",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new HashSet<>();
+
+    @OneToMany(mappedBy = "id.product")
+    private Set<OrderItem> items = new HashSet<>();
+
+    @JsonIgnore
+    public Set<Order> getOrders() {
+        Set<Order> orders = new HashSet<>();
+        for (OrderItem orderItem : items) {
+            orders.add(orderItem.getOrder());
+        }
+        return orders;
+    }
 }
