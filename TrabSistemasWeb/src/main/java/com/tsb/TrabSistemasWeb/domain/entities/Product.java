@@ -21,6 +21,7 @@ import java.util.Set;
 public class Product implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @Getter
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -32,7 +33,7 @@ public class Product implements Serializable {
     @Getter
     private Double price;
     @Getter
-    private String ingUrl;
+    private String imgUrl;
 
     @Getter
     @ManyToMany

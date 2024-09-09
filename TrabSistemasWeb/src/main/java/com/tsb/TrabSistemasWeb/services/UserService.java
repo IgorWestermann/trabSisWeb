@@ -23,4 +23,16 @@ public class UserService {
         return obj.get();
     }
 
+    public void Delete(int id) {
+        userRepository.deleteById(id);
+    }
+
+    public User Update(int id, User user) {
+        Optional<User> obj = userRepository.findById(id);
+        obj.get().setName(user.getName());
+        obj.get().setEmail(user.getEmail());
+        obj.get().setPassword(user.getPassword());
+        return userRepository.save(obj.get());
+    }
+
 }

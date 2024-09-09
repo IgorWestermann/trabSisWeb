@@ -4,10 +4,7 @@ import com.tsb.TrabSistemasWeb.domain.entities.User;
 import com.tsb.TrabSistemasWeb.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,7 +19,7 @@ public class UserController {
         return ResponseEntity.ok("Success!");
     }
 
-    @GetMapping(value = "list")
+    @GetMapping(value = "/list")
     public ResponseEntity<List<User>> GetUsers() {
         List<User> users = userService.Get();
         return ResponseEntity.ok().body(users);
@@ -32,6 +29,19 @@ public class UserController {
     public ResponseEntity<User> findById(@PathVariable Integer id) {
         User user = userService.GetById(id);
         return ResponseEntity.ok().body(user);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<String> DeleteUser(@RequestParam Integer id) {
+        userService.Delete(id);
+
+        return ResponseEntity.ok().body("User successfully deleted!");
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<User> UpdateUser(@PathVariable Integer id, @RequestBody User user) {
+        User updatedUser = userService.Update(id, user);
+        return ResponseEntity.ok().body(updatedUser);
     }
 
 }

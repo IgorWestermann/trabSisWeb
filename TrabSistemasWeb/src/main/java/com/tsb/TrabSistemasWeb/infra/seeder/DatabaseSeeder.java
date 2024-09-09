@@ -82,31 +82,31 @@ public class DatabaseSeeder implements CommandLineRunner {
         p1.setName("The Lord of the Rings");
         p1.setDescription("Lorem ipsum dolor sit amet, consectetur.");
         p1.setPrice(90.5);
-        p1.setIngUrl("");
+        p1.setImgUrl("");
 
         Product p2 = new Product();
         p2.setName("Smart TV");
         p2.setDescription("Nulla eu imperdiet purus. Maecenas ante.");
         p2.setPrice(2190.0);
-        p2.setIngUrl("");
+        p2.setImgUrl("");
 
         Product p3 = new Product();
         p3.setName("Macbook Pro");
         p3.setDescription("Nam eleifend maximus tortor, at mollis.");
         p3.setPrice(1250.0);
-        p3.setIngUrl("");
+        p3.setImgUrl("");
 
         Product p4 = new Product();
         p4.setName("PC Gamer");
         p4.setDescription("Donec aliquet odio ac rhoncus cursus.");
         p4.setPrice(1200.0);
-        p4.setIngUrl("");
+        p4.setImgUrl("");
 
         Product p5 = new Product();
         p5.setName("Rails for Dummies");
         p5.setDescription("Cras fringilla convallis sem vel faucibus.");
         p5.setPrice(100.99);
-        p5.setIngUrl("");
+        p5.setImgUrl("");
 
         p1.getCategories().add(cat2);
         p2.getCategories().add(cat1);
@@ -128,12 +128,12 @@ public class DatabaseSeeder implements CommandLineRunner {
         o1.setPayment(pay1);
 
         // Save
-        userRepository.save(u1);
-        userRepository.save(u2);
-        categoryRepository.saveAll(List.of(cat1, cat2, cat3));
-        orderRepository.saveAll(List.of(o1, o2, o3));
-        productRepository.saveAll(List.of(p1, p2, p3, p4, p5));
-        orderItemRepository.saveAll(List.of(oi1, oi2, oi3, oi4));
+//        userRepository.save(u1);
+//        userRepository.save(u2);
+//        categoryRepository.saveAll(List.of(cat1, cat2, cat3));
+//        orderRepository.saveAll(List.of(o1, o2, o3));
+//        productRepository.saveAll(List.of(p1, p2, p3, p4, p5));
+//        orderItemRepository.saveAll(List.of(oi1, oi2, oi3, oi4));
 //        orderRepository.saveAll(List.of(o1));
     }
 }
