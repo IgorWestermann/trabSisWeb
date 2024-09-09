@@ -1,6 +1,6 @@
 package com.tsb.TrabSistemasWeb.controllers;
 
-import com.tsb.TrabSistemasWeb.domain.user.User;
+import com.tsb.TrabSistemasWeb.domain.entities.User;
 import com.tsb.TrabSistemasWeb.dto.LoginRequestDto;
 import com.tsb.TrabSistemasWeb.dto.RegisterRequestDTO;
 import com.tsb.TrabSistemasWeb.dto.ResponseDTO;
@@ -40,6 +40,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity Register(@RequestBody RegisterRequestDTO body) {
         Optional<User> user = this.userRepository.findByEmail(body.email());
+
         if (user.isEmpty()) {
             User newUser = new User();
             newUser.setEmail(body.email());

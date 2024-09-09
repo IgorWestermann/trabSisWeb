@@ -1,6 +1,6 @@
 package com.tsb.TrabSistemasWeb.infra.security;
 
-import com.tsb.TrabSistemasWeb.domain.user.User;
+import com.tsb.TrabSistemasWeb.domain.entities.User;
 import com.tsb.TrabSistemasWeb.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,8 +17,8 @@ public class CustomUserDetailsService implements UserDetailsService
     public UserRepository repository;
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = this.repository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException(username));
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = this.repository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email));
         return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), new ArrayList<>());
     }
 }
