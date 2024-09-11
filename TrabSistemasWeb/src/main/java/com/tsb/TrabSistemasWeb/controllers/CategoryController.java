@@ -18,7 +18,7 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @PostMapping
-    public ResponseEntity<Category> createCategory(@RequestBody Category category) {
+    public ResponseEntity<Category> Create(@RequestBody Category category) {
         Category createdCategory = categoryService.Create(category);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -28,25 +28,25 @@ public class CategoryController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<Category>> getAllCategories() {
+    public ResponseEntity<List<Category>> GetAllCategories() {
         List<Category> categories = categoryService.FindAll();
         return ResponseEntity.ok().body(categories);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Category> getCategoryById(@PathVariable Integer id) {
+    public ResponseEntity<Category> GetCategoryById(@PathVariable Integer id) {
         Category category = categoryService.FindById(id);
         return ResponseEntity.ok().body(category);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Category> updateCategory(@PathVariable Integer id, @RequestBody Category category) {
+    public ResponseEntity<Category> Update(@PathVariable Integer id, @RequestBody Category category) {
         Category updatedCategory = categoryService.Update(id, category);
         return ResponseEntity.ok().body(updatedCategory);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCategory(@PathVariable Integer id) {
+    public ResponseEntity<Void> Delete(@PathVariable Integer id) {
         categoryService.Delete(id);
         return ResponseEntity.noContent().build();
     }

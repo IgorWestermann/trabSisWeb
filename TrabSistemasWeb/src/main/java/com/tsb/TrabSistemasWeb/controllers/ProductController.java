@@ -1,5 +1,6 @@
 package com.tsb.TrabSistemasWeb.controllers;
 
+import com.tsb.TrabSistemasWeb.domain.entities.Category;
 import com.tsb.TrabSistemasWeb.domain.entities.Product;
 import com.tsb.TrabSistemasWeb.dto.ProductRequestDto;
 import com.tsb.TrabSistemasWeb.dto.ProductResponseDto;
@@ -7,7 +8,9 @@ import com.tsb.TrabSistemasWeb.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -53,5 +56,15 @@ public class ProductController {
     public ResponseEntity<List<ProductResponseDto>> FindProductByName(@RequestBody String name) {
         List<ProductResponseDto> products = productService.FindByName(name);
         return ResponseEntity.ok().body(products);
+    }
+
+    @PostMapping
+    public ResponseEntity<ProductResponseDto> Create(@RequestBody ProductRequestDto body) {
+        ProductResponseDto createdProduct = productService.Create(body);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(createdProduct.getId())
+                .toUri();
+        return ResponseEntity.created(location).body(createdProduct);
     }
 }

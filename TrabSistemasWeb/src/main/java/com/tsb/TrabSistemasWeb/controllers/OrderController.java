@@ -1,7 +1,11 @@
 package com.tsb.TrabSistemasWeb.controllers;
 
 import com.tsb.TrabSistemasWeb.domain.entities.Order;
+import com.tsb.TrabSistemasWeb.domain.entities.OrderItem;
+import com.tsb.TrabSistemasWeb.domain.entities.Product;
 import com.tsb.TrabSistemasWeb.domain.entities.User;
+import com.tsb.TrabSistemasWeb.dto.OrderItemRequest;
+import com.tsb.TrabSistemasWeb.dto.OrderRequestDto;
 import com.tsb.TrabSistemasWeb.services.OrderService;
 import com.tsb.TrabSistemasWeb.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/order")
@@ -36,23 +42,19 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<Order> createOrder(@RequestBody Order order) {
-        Order newOrder = orderService.Create(order);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(newOrder.getId())
-                .toUri();
-        return ResponseEntity.created(location).body(newOrder);
+    public ResponseEntity<Order> Create(@RequestBody OrderRequestDto orderRequest) {
+        Order newOrder = orderService.createOrder(orderRequest);
+        return ResponseEntity.ok().body(newOrder);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Order> updateOrder(@PathVariable Integer id, @RequestBody Order order) {
+    public ResponseEntity<Order> Update(@PathVariable Integer id, @RequestBody Order order) {
         Order updatedOrder = orderService.Update(id, order);
         return ResponseEntity.ok().body(updatedOrder);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable Integer id) {
+    public ResponseEntity<Void> Delete(@PathVariable Integer id) {
         orderService.Delete(id);
         return ResponseEntity.noContent().build();
     }

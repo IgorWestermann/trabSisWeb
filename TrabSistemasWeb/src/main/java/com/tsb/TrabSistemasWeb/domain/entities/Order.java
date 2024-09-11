@@ -26,6 +26,7 @@ public class Order implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
     private Instant moment;
 
@@ -35,7 +36,7 @@ public class Order implements Serializable {
     @JoinColumn(name = "client_id")
     private User client;
 
-    @OneToMany(mappedBy = "id.order")
+    @OneToMany(mappedBy = "id.order", cascade = CascadeType.PERSIST)
     private Set<OrderItem> items = new HashSet<>();
 
     @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)

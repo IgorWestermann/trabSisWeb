@@ -13,5 +13,4 @@ public class ProductRequestDto {
     private String imgUrl;
     private Double price;
     private Set<Integer> categoryIds;
-
 }

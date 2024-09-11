@@ -6,6 +6,7 @@ import com.tsb.TrabSistemasWeb.dto.CategoryDto;
 import com.tsb.TrabSistemasWeb.dto.ProductRequestDto;
 import com.tsb.TrabSistemasWeb.dto.ProductResponseDto;
 import com.tsb.TrabSistemasWeb.repository.ProductRepository;
+import jakarta.persistence.EntityExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,41 +34,45 @@ public class ProductService {
         return obj.get();
     }
 
-    public ProductResponseDto Create(ProductRequestDto productRequestDto) {
-        Product product = new Product();
-        product.setName(productRequestDto.getName());
-        product.setDescription(productRequestDto.getDescription());
-        product.setPrice(productRequestDto.getPrice());
-        product.setImgUrl(productRequestDto.getImgUrl());
+    public ProductResponseDto Create(ProductRequestDto request) {
+        Optional<Product> existingProduct = productRepository.findByName(request.getName());
+        if (existingProduct.isPresent()) {
+            throw new EntityExistsException("Product already exists");
+        }
+        Product newProduct = new Product();
+        newProduct.setName(request.getName());
+        newProduct.setDescription(request.getDescription());
+        newProduct.setPrice(request.getPrice());
+        newProduct.setImgUrl(request.getImgUrl());
 
-        Set<Category> categories = productRequestDto.getCategoryIds().stream()
+        Set<Category> categories = request.getCategoryIds().stream()
                 .map(categoryService::FindById)
                 .collect(Collectors.toSet());
-        product.setCategories(categories);
+        newProduct.setCategories(categories);
 
-        Product savedProduct = productRepository.save(product);
+        productRepository.save(newProduct);
 
         ProductResponseDto responseDto = new ProductResponseDto();
-        responseDto.setId(savedProduct.getId());
-        responseDto.setName(savedProduct.getName());
-        responseDto.setDescription(savedProduct.getDescription());
-        responseDto.setPrice(savedProduct.getPrice());
-        responseDto.setImgUrl(savedProduct.getImgUrl());
-        responseDto.setCategories(savedProduct.getCategories().stream()
+        responseDto.setId(newProduct.getId());
+        responseDto.setName(newProduct.getName());
+        responseDto.setDescription(newProduct.getDescription());
+        responseDto.setPrice(newProduct.getPrice());
+        responseDto.setImgUrl(newProduct.getImgUrl());
+        responseDto.setCategories(newProduct.getCategories().stream()
                 .map(category -> new CategoryDto(category.getId(), category.getName()))
                 .collect(Collectors.toSet()));
 
         return responseDto;
     }
 
-    public ProductResponseDto Update(Integer id, ProductRequestDto productRequestDto) {
+    public ProductResponseDto Update(Integer id, ProductRequestDto request) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + id));
 
-        product.setName(productRequestDto.getName());
-        product.setDescription(productRequestDto.getDescription());
-        product.setPrice(productRequestDto.getPrice());
-        product.setImgUrl(productRequestDto.getImgUrl());
+        product.setName(request.getName());
+        product.setDescription(request.getDescription());
+        product.setPrice(request.getPrice());
+        product.setImgUrl(request.getImgUrl());
 
         Product updatedProduct = productRepository.save(product);
 

@@ -26,20 +26,20 @@ public class UserController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<User> findById(@PathVariable Integer id) {
+    public ResponseEntity<User> FindById(@PathVariable Integer id) {
         User user = userService.GetById(id);
         return ResponseEntity.ok().body(user);
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<String> DeleteUser(@RequestParam Integer id) {
+    public ResponseEntity<String> Delete(@RequestParam Integer id) {
         userService.Delete(id);
 
         return ResponseEntity.ok().body("User successfully deleted!");
     }
 
     @PutMapping(value = "/{id}")
-    public ResponseEntity<User> UpdateUser(@PathVariable Integer id, @RequestBody User user) {
+    public ResponseEntity<User> Update(@PathVariable Integer id, @RequestBody User user) {
         User updatedUser = userService.Update(id, user);
         return ResponseEntity.ok().body(updatedUser);
     }
