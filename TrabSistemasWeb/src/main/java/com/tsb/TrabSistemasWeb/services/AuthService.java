@@ -43,6 +43,7 @@ public class AuthService {
             newUser.setPassword(passwordEncoder.encode(body.password()));
             newUser.setName(body.name());
             newUser.setPhone(body.phone());
+            newUser.setRole(body.role());
 
             this.userRepository.save(newUser);
 
@@ -50,7 +51,8 @@ public class AuthService {
                     newUser.getId(),
                     newUser.getName(),
                     newUser.getEmail(),
-                    newUser.getPhone());
+                    newUser.getPhone(),
+                    newUser.getRole());
         }
         return null;
     }

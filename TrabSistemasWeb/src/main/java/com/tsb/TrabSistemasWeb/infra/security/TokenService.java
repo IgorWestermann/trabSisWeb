@@ -24,6 +24,7 @@ public class TokenService {
                     .withIssuer("login-auth-api")
                     .withSubject(user.getEmail())
                     .withExpiresAt(this.GenerateExpirationDate())
+                    .withClaim("role", user.getRole()) // Add user role claim
                     .sign(algorithm);
         } catch (JWTCreationException exception) {
             throw new RuntimeException(exception);
